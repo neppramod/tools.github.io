@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<style>
+/*	  
+	  table {
+		  width:40%;
+	  }
+*/
+	  table, th, td {
+		  border: 1px solid black;
+		  border-collapse: collapse;
+	  }
+	  th, td {
+		  padding: 15px;
+		  text-align: left;
+	  }
+	  th {
+		  padding-top: 12px;
+		  padding-bottom: 12px;
+		  text-align: left;
+		  background-color: #5B5EA6;
+		  color: white;
+	  }
+	  #t01 tr:nth-child(even) {
+		  background-color: #eee;
+	  }
+	  #t01 tr:nth-child(odd) {
+		  background-color: #fff;
+	  }
+	  
+	</style>
+  </head>
+  <body>
+
+	<p>Click dp table with rows, cols</p>
+
+	Dimensions (RXC) : <input type="text" id="rows" style="width: 50px" value="3"></input> <input type="text" id="cols" style="width: 50px" value="3"></input> <br></br>
+	Default Value: <input type="text" id="defaultval" style="width: 100px" value=""></input> <br></br>
+	
+	<button onclick="createTable()"> Create Table</button>
+	<br></br>
+	<br></br>
+	<script>
+	  
+	  function createTable() {
+
+		  var rows = document.getElementById("rows").value;
+		  var cols = document.getElementById("cols").value;
+
+		  if (document.contains(document.getElementById("dpTable"))) {
+              document.getElementById("dpTable").remove();
+		  } 
+		  
+		  var x = document.createElement("TABLE");
+		  x.setAttribute("id", "dpTable");
+		  document.body.appendChild(x);
+
+		  var i = 0;
+
+		  var y1 = document.createElement("TR");
+		  y1.appendChild(document.createElement("TH"));
+		  for (i = 0; i < cols; i++) {
+			  var z2 = document.createElement("TH");
+			  var t2 = document.createTextNode(i + "");
+			  z2.appendChild(t2);
+			  y1.appendChild(z2);
+		  }
+		  document.getElementById("dpTable").appendChild(y1);
+
+		  var defaultVal = document.getElementById("defaultval").value;
+		  
+		  for (i = 0; i < rows; i++) {
+			  var y = document.createElement("TR");
+			  y.setAttribute("id", "dpTr" + i);
+			  document.getElementById("dpTable").appendChild(y);
+
+			  var z1 = document.createElement("TH");
+			  var t1 = document.createTextNode(i + "");
+			  z1.appendChild(t1);
+			  document.getElementById("dpTr" + i).appendChild(z1);
+			  
+			  var j = 0;
+
+			  for (j = 0; j < cols; j++) {
+				  var z = document.createElement("TD");
+				  var t = document.createElement("INPUT");
+				  t.setAttribute("id", "box_"+i + "_" + j);
+				  t.setAttribute("type", "text");
+				  t.setAttribute("style", "width: 50px");
+				  t.setAttribute("value", defaultVal);
+				  
+				  z.appendChild(t);
+				  document.getElementById("dpTr" + i).appendChild(z);
+			  }
+		  }
+	  }
+
+	  document.onkeydown = checkKey;
+
+	  function checkKey(e) {
+
+		  e = e || window.event;
+
+		  // get row,col
+		  var target = e.target || e.srcElement;
+		  var id = target.getAttribute("id");
+		  
+		  var str = id.split("_");
+		  var row = str[1];
+		  var col = str[2];
+
+		  // console.log("Row: " + row + ", Col: " + col);
+
+		  var rows = document.getElementById("rows").value;
+		  var cols = document.getElementById("cols").value;
+		  
+		  if (e.keyCode == '38') {
+			  // up arrow
+			  if (row > 0) {
+				  row--;
+			  }
+		  }
+		  else if (e.keyCode == '40') {
+			  // down arrow
+			  if (row < rows-1) {
+				  row++;
+			  }
+		  }
+		  else if (e.keyCode == '37') {
+			  // left arrow
+			  if (col > 0) {
+				  col--;
+			  }
+		  }
+		  else if (e.keyCode == '39') {
+			  // right arrow
+			  if (col < cols-1) {
+				  col++;
+			  }
+		  }
+
+		  var newId = "box_" + row + "_" + col;
+		  //console.log("New Id: " + newId);
+		  var newBox = document.getElementById(newId);
+		  if (newBox) {
+			  newBox.focus();
+			  newBox.select();
+		  }
+	  }
+
+	</script>
+
+  </body>
+</html>
