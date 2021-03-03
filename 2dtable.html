@@ -155,9 +155,9 @@
 			}
 
 			var newId = "box_" + row + "_" + col;
-			//console.log("New Id: " + newId);
 			var newBox = document.getElementById(newId);
-			if (newBox) {
+
+			if (newBox && document.activeElement.id != newId) {
 				newBox.focus();
 				newBox.select();
 			}
